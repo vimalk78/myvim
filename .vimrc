@@ -248,3 +248,18 @@ let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 
 
+" for protobuf
+augroup filetype
+  au! BufRead,BufNewFile *.proto setfiletype proto
+augroup end
+
+
+" vim markdown plugin
+let g:vim_markdown_folding_disabled = 1
+
+
+set showcmd
+
+let g:go_guru_scope = [ "github.com/coreos/etcd/etcdserver/..." ]
+" let g:go_guru_scope = ["github.com/coreos/etcd/etcdserver/...","github.com/coreos/etcd/raft/...","github.com/coreos/etcd/rafthttp/...","github.com/coreos/etcd/snap/...","github.com/coreos/etcd/store/...","github.com/coreos/etcd/wal/..."]
+
