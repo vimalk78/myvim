@@ -16,6 +16,9 @@ set novisualbell
 set nohlsearch
 set nu
 set laststatus=2
+set wildmenu
+set path+=**
+
 
 " Make sure that extra margin on left is removed
 set foldcolumn=0
@@ -164,10 +167,10 @@ let g:go_highlight_fields = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 " show GoInfo automatically
-let g:go_auto_type_info = 1
+" let g:go_auto_type_info = 1
 set updatetime=100
 " automatically highlight matching identifiers.
-let g:go_auto_sameids = 1
+" let g:go_auto_sameids = 1
 
 " Show a list of interfaces which is implemented by the type under your cursor
 au FileType go nmap <Leader>s <Plug>(go-implements)
@@ -260,6 +263,11 @@ let g:vim_markdown_folding_disabled = 1
 
 set showcmd
 
-let g:go_guru_scope = [ "github.com/coreos/etcd/etcdserver/..." ]
+let g:go_def_mode = 'guru'
+
+let g:go_guru_scope = [ "github.com/coreos/etcd" ]
+" let g:go_guru_scope = [ "github.com/coreos/etcd/etcdserver/..." ]
 " let g:go_guru_scope = ["github.com/coreos/etcd/etcdserver/...","github.com/coreos/etcd/raft/...","github.com/coreos/etcd/rafthttp/...","github.com/coreos/etcd/snap/...","github.com/coreos/etcd/store/...","github.com/coreos/etcd/wal/..."]
 
+set tags+=/usr/local/go/src/tags
+set tags+=/home/vimal/gowork/src/github.com/coreos/etcd/tags
