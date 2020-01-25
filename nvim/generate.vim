@@ -32,24 +32,29 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 "" Plug install packages
 "*****************************************************************************
 Plug 'smitajit/bufutils.vim'
+Plug 'Shougo/denite.nvim'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'deoplete-plugins/deoplete-go', { 'do': 'make'}
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'tpope/vim-commentary'         " to comment/uncomment code
 Plug 'tpope/vim-fugitive'           " the best Git wrapper of all time.
-"Plug 'powerline/powerline'
+Plug 'bling/vim-airline'
 Plug 'ap/vim-buftabline'
 Plug 'airblade/vim-gitgutter'       " shows a git diff in the 'gutter' (sign column)
-Plug 'vim-scripts/grep.vim'         " The grep plugin integrates the grep, fgrep, egrep, and agrep tools with Vim
+"Plug 'vim-scripts/grep.vim'         " The grep plugin integrates the grep, fgrep, egrep, and agrep tools with Vim
 Plug 'Raimondi/delimitMate'         " automatic closing of quotes, parenthesis, brackets, etc<Paste>
 Plug 'majutsushi/tagbar'			" browse the tags of the current file and get an overview of its structure.
-Plug 'w0rp/ale'						" providing linting in NeoVim and Vim 8 while you edit your text files.
-Plug 'Yggdroot/indentLine'          " displaying thin vertical lines at each indentation level for code indented with spaces
-Plug 'avelino/vim-bootstrap-updater' "??
-Plug 'sheerun/vim-polyglot'			" A collection of language packs for Vim.
-Plug 'ctrlpvim/ctrlp.vim'           " Full path fuzzy file, buffer, mru, tag, ... finder for Vim
-Plug 'google/vim-maktaba'
-Plug 'google/vim-codefmt'
-Plug 'google/vim-glaive'
+Plug 'dense-analysis/ale'
+"Plug 'sheerun/vim-polyglot'			" A collection of language packs for Vim.
+
+Plug 'google/vim-codefmt'           " An AutoBufferFormatter for various languages
+Plug 'google/vim-maktaba'           " required by vim-codefmt
+
+" syntastic
+"Plug 'vim-syntastic/syntastic'
+
+"Plug 'google/vim-glaive'
 "Plug 'easymotion/vim-easymotion'
 if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
@@ -61,22 +66,22 @@ let g:make = 'gmake'
 if exists('make')
         let g:make = 'make'
 endif
-Plug 'Shougo/vimproc.vim', {'do': g:make}
+"Plug 'Shougo/vimproc.vim', {'do': g:make}
 
 "" Vim-Session
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-session'
+"Plug 'xolox/vim-misc'
+"Plug 'xolox/vim-session'
 
 if v:version >= 703
-  Plug 'Shougo/vimshell.vim'
+"  Plug 'Shougo/vimshell.vim'
 endif
 
 if v:version >= 704
   "" Snippets
-  Plug 'SirVer/ultisnips'
+"  Plug 'SirVer/ultisnips'
 endif
 
-Plug 'honza/vim-snippets'
+"Plug 'honza/vim-snippets'
 
 "" Color
 Plug 'tomasr/molokai'
@@ -90,12 +95,29 @@ Plug 'tomasr/molokai'
 Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
 
 "nvim completion manager
-Plug 'roxma/nvim-completion-manager'
+"Plug 'ncm2/ncm2'                  " nvim completion manager. needs nvim-yarp
+"Plug 'roxma/nvim-yarp'
+" enable ncm2 for all buffers
+"autocmd BufEnter * call ncm2#enable_for_buffer()
+
+" IMPORTANT: :help Ncm2PopupOpen for more information
+set completeopt=noinsert,menuone,noselect
+
+" NOTE: you need to install completion sources to get completions. Check
+" our wiki page for a list of sources: https://github.com/ncm2/ncm2/wiki
+"Plug 'ncm2/ncm2-go'
+"Plug 'ncm2/ncm2-bufword'
+"Plug 'ncm2/ncm2-path'
+
+" Yaml
+Plug 'stephpy/vim-yaml'
 
 " python
 "" Python Bundle
 "Plug 'davidhalter/jedi-vim'
 "Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
+
+Plug 'voldikss/vim-floaterm'
 
 
 "*****************************************************************************
@@ -344,6 +366,7 @@ nnoremap <leader>sc :CloseSession<CR>
 nnoremap <Tab> :bnext<CR>
 "nnoremap <S-Tab> gT
 nnoremap <S-Tab> :bprevious<CR>
+
 nnoremap <silent> <S-t> :tabnew<CR>
 
 "" Set working directory
@@ -375,7 +398,7 @@ endif
 
 cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 nnoremap <silent> <leader>b :Buffers<CR>
-nnoremap <silent> <leader>e :FZF -m<CR>
+nnoremap <silent> <leader>f :FZF -m<CR>
 
 " snippets
 let g:UltiSnipsExpandTrigger="<tab>"
@@ -384,13 +407,23 @@ let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 let g:UltiSnipsEditSplit="vertical"
 
 " syntastic
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_error_symbol='✗'
-let g:syntastic_warning_symbol='⚠'
-let g:syntastic_style_error_symbol = '✗'
-let g:syntastic_style_warning_symbol = '⚠'
-let g:syntastic_auto_loc_list=1
-let g:syntastic_aggregate_errors = 1
+"let g:syntastic_always_populate_loc_list=0
+"let g:syntastic_error_symbol='✗'
+"let g:syntastic_warning_symbol='⚠'
+"let g:syntastic_style_error_symbol = '✗'
+"let g:syntastic_style_warning_symbol = '⚠'
+"let g:syntastic_auto_loc_list=1
+"let g:syntastic_aggregate_errors = 1
+"
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+"
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
+
 
 " Tagbar
 nmap <silent> <F4> :TagbarToggle<CR>
@@ -468,8 +501,8 @@ endfunction
 let g:go_list_type = "quickfix"
 let g:go_fmt_command = "goimports"
 let g:go_fmt_fail_silently = 1
-let g:syntastic_go_checkers = ['golint', 'govet']
-let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+let g:syntastic_go_checkers = ['go','golint', 'govet', 'errcheck']
+"let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 
 let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
@@ -479,10 +512,16 @@ let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_structs = 1
 let g:go_highlight_generate_tags = 1
-let g:go_highlight_space_tab_error = 0
-let g:go_highlight_array_whitespace_error = 0
-let g:go_highlight_trailing_whitespace_error = 0
+let g:go_highlight_space_tab_error = 1
+let g:go_highlight_array_whitespace_error = 1
+let g:go_highlight_trailing_whitespace_error = 1
 let g:go_highlight_extra_types = 1
+let g:go_auto_type_info = 1
+set updatetime=100
+let g:go_echo_command_info = 1
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
+
 
 autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
 
@@ -542,12 +581,15 @@ augroup go
   au FileType go imap <C-g> <esc>:<C-u>GoDecls<cr>
   au FileType go nmap <leader>rb :<C-u>call <SID>build_go_files()<CR>
   au FileType go nmap <Leader>s <Plug>(go-implements)
-  au FileType go nmap <Leader>e <Plug>(go-rename)
+  au FileType go nmap <Leader>re <Plug>(go-rename)
   au FileType go nmap <leader>b <Plug>(go-build)
   au FileType go silent exe "GoGuruScope " . s:go_guru_scope_from_git_root()
+
+  au Filetype go inoremap <buffer>. .<C-x><C-o>
+
 augroup END
 
-let g:go_auto_type_info = 0
+
 let g:go_list_type = "quickfix"
 map <C-n> :cnext<CR>
 map <C-m> :cprevious<CR>
@@ -590,7 +632,7 @@ let python_highlight_all = 1
 
 
 " ALE
-"let g:airline#extensions#ale#enabled = 1
+let g:airline#extensions#ale#enabled = 1
 
 
 "*****************************************************************************
@@ -604,4 +646,16 @@ endif
 "*****************************************************************************
 "" Convenience variables
 "*****************************************************************************
+
+
+
+
+function! OpenCompletion()
+    if !pumvisible() && ((v:char >= 'a' && v:char <= 'z') || (v:char >= 'A' && v:char <= 'Z'))
+        call feedkeys("\<C-x>\<C-o>", "n")
+    endif
+endfunction
+
+"autocmd FileType go InsertCharPre * call OpenCompletion()
+
 
