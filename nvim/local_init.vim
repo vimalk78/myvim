@@ -11,7 +11,7 @@
 let g:go_term_mode = "split"
 
 "set tags+=/usr/local/go/src/tags
-"set tags+=/home/vimal/gowork/src/github.com/coreos/etcd/gotags
+set tags+=~/.gotags
 "set tags+=/home/vimal/gowork/src/github.com/coreos/etcd/cgotags
 
 set nohlsearch
@@ -63,3 +63,11 @@ map ql :BCloseLeft<cr>
 map qr :BCloseRight<cr>
 map qo :BCloseOther<cr>
 map qq :BCloseThis<cr>
+
+tnoremap <Esc> <C-\><C-n>
+
+
+"autocmd BufRead /home/vimalkum/go/src/github.com/openshift/cluster-logging-operator/*.go
+"        \ :GoGuruScope github.com/openshift/cluster-logging-operator
+
+
